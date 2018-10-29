@@ -1,21 +1,25 @@
 #!/bin/bash
 
 cd "$( dirname "${BASH_SOURCE[0]}" )" || exit
-mkdir script
-mkdir confs
+if [ ! -d "$PWD/script" ];then
+  mkdir script
+fi
+if [ ! -d "$PWD/confs" ];then
+  mkdir confs
+fi
 
 generate_script() {
-  cp template/template.sh script 
-  mv script/template.sh script/readLog-"$1".sh
-  sed -i 's/\"<dockerName>\"/\"'"$1"'\"/' script/readLog-"$1".sh
+  cp "$PWD"/template/template.sh "$PWD"/script 
+  mv "$PWD"/script/template.sh "$PWD"/script/readLog-"$1"Log.sh
+  sed -i 's/\"<dockerName>\"/\"'"$1"'\"/' "$PWD"/script/readLog-"$1"Log.sh
 }
 
 genreate_conf() {
-  cp template/template.conf confs
-  mv template/template.conf template/runner."$1"Log.conf
-  sed -i 's/<dockerName>/'"$1"'/' template/runner."$1"Log.conf
-  sed -i 's/\"<workflow_name>\"/\"'"$1"'\"/' template/runner."$1"Log.conf
-  sed -i 's/\"<repo_name>\"/\"'"$1"'\"/' template/runner."$1"Log.conf
+  cp "$PWD"/template/template.conf "$PWD"/confs
+  mv "$PWD"/confs/template.conf "$PWD"/confs/runner."$1"Log.conf
+  sed -i 's/<dockerName>/'"$1"'/' "$PWD"/template/runner."$1"Log.conf
+  sed -i 's/\"<workflow_name>\"/\"'"$1"'\"/' "$PWD"/template/runner."$1"Log.conf
+  sed -i 's/\"<repo_name>\"/\"'"$1"'\"/' "$PWD"/template/runner."$1"Log.conf
 }
 
 
